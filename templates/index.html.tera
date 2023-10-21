@@ -1,0 +1,28 @@
+{% extends "base" %}
+
+{% block content %}
+
+<div class="container mt-6">
+    <nav class="panel is-primary">
+        <div class="panel-heading">
+            <p>Listem</p>
+            <span hx-get="tasks" class="icon" hx-swap="outerHTML" hx-trigger="load, click">
+                <i class="fas fa-refresh"></i>
+            </span>
+        </div>
+        <div class="panel-block">
+            <p class="control has-icons-left">
+                <input class="input" type="text" placeholder="Search">
+                <span class="icon is-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </span>
+            </p>
+        </div>
+        <p class="panel-tabs">
+            <a class="is-active">All</a>
+            <a>Public</a>
+        </p>
+    </nav>
+</div>
+
+{% endblock content %}

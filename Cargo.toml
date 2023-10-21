@@ -1,0 +1,26 @@
+[package]
+name = "listem"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+lazy_static = "1.4.0"
+rocket = { version = "0.5.0-rc.2", features = ["json"] }
+serde = "1.0.152"
+diesel = { version = "2.1.0", features = [
+    "sqlite",
+    "returning_clauses_for_sqlite_3_35",
+    "r2d2",
+] }
+dotenvy = "0.15"
+r2d2 = "0.8.10"
+r2d2-diesel = "1.0"
+tera = "1.19.1"
+# in your application, you should enable only the template engine(s) used
+[dependencies.rocket_dyn_templates]
+version = "0.1.0-rc.3"
+features = ["tera"]
+
+[package.metadata.docs.rs.rename-and-remove-lints]
+warn = ["renamed_and_removed_lints"]

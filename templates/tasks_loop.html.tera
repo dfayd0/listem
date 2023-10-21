@@ -1,0 +1,50 @@
+{# {% extends "base" %} #}
+
+<div>
+    {% block content %}
+
+    <div id="receiver">
+
+    </div>
+
+    <div id="loading-indicator" style="display: none;">Loading...</div>
+    <div class="task-list">
+        {% for task in tasks %}
+        <label class="field panel-block">
+            <label class="checkbox">
+                <input type="checkbox">
+                {{ task.title }}
+            </label>
+        </label>
+        {% endfor %}
+    </div>
+    <div class="field">
+        <form id="add-task-form" hx-post="/api/add" hx-swap="outerHTML" hx-indicator="#loading-indicator"
+            hx-target="#receiver">
+            <p class="control has-icons-right">
+                <input class="input has-icon-right" type="text" placeholder="Add a new task..." name="task">
+                <span id="add-btn" class="icon is-right">
+                    <i class="fas fa-plus"></i>
+                </span>
+            </p>
+        </form>
+    </div>
+    {% endblock content %}
+</div>
+
+<script>
+    console.log("eloo")
+    document.addEventListener('htmx:targetError', function (event) {
+        console.log('HTMX Target Error:', event);
+    });
+    document.getElementById('add-task-form').addEventListener('htmx:afterOnLoad', function (event) {
+        if (event.detail.xhr.status === 202) {
+
+            var responseHtml = event.detail.xhr.response; // The HTML response from the server
+            document.getElementById('receiver').insertAdjacentHTML('beforeend', responseHtml);
+
+            // Clear the form
+            document.getElementById('add-task-form').reset();
+        }
+    });
+</script>
