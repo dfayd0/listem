@@ -1,0 +1,20 @@
+<li id="task-{{ task.id }}"
+  class="uk-flex uk-flex-between uk-flex-middle anim-fade-out">
+  <p class="task" hx-swap="outerHTML" hx-get="/api/gedit/{{ task.id }}">
+    <ion-icon name="chevron-down-outline"></ion-icon>
+    <span class="overline">{{ task.title }}</span>
+  </p>
+  <div class="pretty p-default p-thick taskcheck p-round">
+    <input class="checkbox" type="checkbox" checked
+      hx-put="/api/done/{{ task.id }}" hx-swap="afterbegin"
+      hx-target="#taskItems" hx-on="change: hide_task({{task.id}})" />
+    <div class="state p-success">
+      <label></label>
+    </div>
+  </div>
+
+  <button class="button is-circle anim-fade-out" hx-swap="outerHTML swap:0.4s"
+    hx-delete="/api/delete/{{ task.id }}">
+    <ion-icon name="close-outline" size="small"></ion-icon>
+  </button>
+</li>

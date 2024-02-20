@@ -69,14 +69,6 @@ fn test_index() {
 }
 
 #[test]
-fn hbs() {
-    test_root("hbs");
-    test_name("hbs");
-    test_404("hbs");
-    test_about("hbs");
-}
-
-#[test]
 fn tera() {
     test_root("tera");
     test_name("tera");

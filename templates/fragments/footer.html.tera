@@ -1,0 +1,17 @@
+<footer uk-sticky="position:bottom" class="uk-margin-medium-top">
+    <div class="container">
+        <div class="has-text-centered">
+            <p>
+                <strong>Listem</strong>
+            </p>
+        </div>
+        <div class="uk-flex uk-flex-around uk-flex-middle has-text-centered">
+            <p class="uk-margin-medium total-first total uk-text-muted uk-text-small">Total tasks: <strong id="taskCount" hx-get="/api/count" hx-sync hx-swap="innerHTML" hx-trigger="load"></strong>
+            </p>
+            <p class="uk-margin-medium total uk-text-muted uk-text-small">Active tasks: <strong id="undoneTaskCount" hx-get="/api/count/undone" hx-sync hx-swap="innerHTML" hx-trigger="load"></strong>
+            </p>
+            <p class="uk-margin-medium total uk-text-muted uk-text-small">Completed tasks: <strong id="doneTaskCount" hx-get="/api/count/done" hx-sync hx-swap="innerHTML" hx-trigger="load"></strong>
+            </p>
+        </div>
+    </div>
+</footer>

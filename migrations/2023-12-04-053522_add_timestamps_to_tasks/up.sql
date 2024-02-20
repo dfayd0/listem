@@ -1,0 +1,9 @@
+-- Your SQL goes here
+ALTER TABLE tasks
+ADD COLUMN created_at TIMESTAMP NULL;
+
+ALTER TABLE tasks
+ADD COLUMN updated_at TIMESTAMP NULL;
+
+ALTER TABLE tasks
+ADD COLUMN due_date TIMESTAMP NULL;

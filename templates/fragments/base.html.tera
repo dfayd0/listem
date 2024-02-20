@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Listem - {{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% include "fragments/style" %}
+</head>
+
+<body>
+  {% include "fragments/nav" %}
+
+  {% block content %}
+
+  {% endblock content %}
+
+  {% include "fragments/footer" %}
+
+  {% include "fragments/script" %}
+</body>
+
+</html>
