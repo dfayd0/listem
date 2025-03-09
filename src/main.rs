@@ -1,39 +1,24 @@
-#[macro_use]
-extern crate rocket;
-mod api;
-mod database;
 mod routes;
 
-extern crate tera;
+use axum::response::Redirect;
+use axum::routing::{get, post};
 
-#[cfg(test)]
-mod tests;
+use axum::Router;
+use tower_http::services::ServeDir;
 
-use rocket_dyn_templates::Template;
-
-#[launch]
-fn rocket() -> _
+#[tokio::main]
+async fn main()
 {
-    rocket::build()
-        .manage(database::database::init_pool())
-        .mount("/", routes![routes::index, routes::about, routes::home])
-        .mount("/static", rocket::fs::FileServer::from("static"))
-        .mount(
-            "/api",
-            routes![
-                api::add_task,
-                api::edit_task,
-                api::get_edit_task,
-                api::delete_task,
-                api::done_task,
-                api::count_tasks,
-                api::count_done_tasks,
-                api::count_undone_tasks,
-            ],
-        )
-        .register("/", catchers![routes::not_found])
-        .attach(Template::custom(|engines| {
-            routes::customize(&mut engines.tera);
-        }))
-    // .attach(Template::fairing())
+    let app = Router::new()
+        .route("/", get(|| async { Redirect::permanent("/home") }))
+        .route("/home", get(routes::home))
+        .nest_service("/static", ServeDir::new("static"));
+
+    let addr = "0.0.0.0";
+    let port = 4444;
+    let listener: tokio::net::TcpListener =
+        tokio::net::TcpListener::bind(format!("{addr}:{port}").as_str())
+            .await
+            .unwrap();
+    axum::serve(listener, app).await.unwrap();
 }

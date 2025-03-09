@@ -1,2 +1,2 @@
-# listem
-A simple todolist built with Rocket, Tera, and HTMX ! 0bjective: the less javascript as possible...  
+# Listem
+A simple todolist built with Axum, Tera, and HTMX!
