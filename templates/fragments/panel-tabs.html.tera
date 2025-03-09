@@ -1,5 +1,0 @@
-<p class="panel-tabs">
-    <a class="is-active">All</a>
-    <a>Completed</a>
-    <a>create new<ion-icon name="add-outline" size="small"></ion-icon></a>
-</p>

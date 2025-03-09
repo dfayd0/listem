@@ -1,6 +1,0 @@
-<li class="uk-flex uk-flex-between" hx-swap="outerHTML" hx-target="this">
-    <form id="taskForm" class="uk-form-horizontal uk-width-1-1" hx-put="/api/edit/{{ task.id }}"
-        hx-trigger="submit,focusout">
-        <input autocomplete="off" autofocus class="uk-input" type="text" name="title" value="{{ task.title }}" required oninvalid="this.setCustomValidity('A task can not become empty don\'t you think ?')">
-    </form>
-</li>
