@@ -30,8 +30,10 @@ async fn main()
         .with(tracing_subscriber::fmt::layer())
         .init();
 
+    // the state is done at init, and wil not be duplicated by different
+    // connections to the server
     let state = AppState {
-        app_name: "My App".to_string(),
+        app_name: "Listem".to_string(),
     };
 
     info!("Initializing server...");
@@ -47,8 +49,10 @@ async fn main()
     let listener: tokio::net::TcpListener =
         tokio::net::TcpListener::bind(format!("{addr}:{port}").as_str())
             .await
-            .unwrap();
+            .expect("Failed to bind to port");
 
     info!("Server listening on http://{addr}:{port}");
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app)
+        .await
+        .expect("Failed to start server");
 }
