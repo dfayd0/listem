@@ -12,6 +12,13 @@ use tracing_subscriber::{
     util::SubscriberInitExt,
 };
 
+#[derive(Clone)]
+pub struct AppState
+{
+    app_name: String,
+    // db_pool:
+}
+
 #[tokio::main]
 async fn main()
 {
@@ -23,10 +30,15 @@ async fn main()
         .with(tracing_subscriber::fmt::layer())
         .init();
 
+    let state = AppState {
+        app_name: "My App".to_string(),
+    };
+
     info!("Initializing server...");
     let app = Router::new()
         .route("/", get(|| async { Redirect::permanent("/home") }))
         .route("/home", get(routes::home))
+        .with_state(state)
         .nest_service("/static", ServeDir::new("static"));
 
     let addr = "0.0.0.0";

@@ -1,5 +1,6 @@
 use askama::Template;
 use axum::{
+    extract::State,
     http::StatusCode,
     response::{
         Html,
@@ -7,6 +8,8 @@ use axum::{
         Response,
     },
 };
+
+use crate::AppState;
 
 /// A wrapper type that we'll use to encapsulate HTML parsed by askama into
 /// valid HTML for axum to serve.
@@ -37,10 +40,15 @@ where
 
 #[derive(Template)]
 #[template(path = "home.html")]
-struct HomeTemplate;
-
-pub async fn home() -> impl IntoResponse
+struct HomeTemplate
 {
-    let template = HomeTemplate {};
+    name: String,
+}
+
+pub async fn home(State(state): State<AppState>) -> impl IntoResponse
+{
+    let template = HomeTemplate {
+        name: state.app_name,
+    };
     HtmlTemplate(template)
 }
