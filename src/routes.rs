@@ -1,54 +1,48 @@
 use askama::Template;
+use askama_derive_axum::IntoResponse;
 use axum::{
     extract::State,
-    http::StatusCode,
-    response::{
-        Html,
-        IntoResponse,
-        Response,
-    },
+    response::Redirect,
 };
 
 use crate::AppState;
 
-/// A wrapper type that we'll use to encapsulate HTML parsed by askama into
-/// valid HTML for axum to serve.
-struct HtmlTemplate<T>(T);
-
-/// Allows us to convert Askama HTML templates into valid HTML for axum to serve
-/// in the response.
-impl<T> IntoResponse for HtmlTemplate<T>
-where
-    T: Template,
+pub async fn index()
 {
-    fn into_response(self) -> Response
-    {
-        // Attempt to render the template with askama
-        match self.0.render() {
-            // If we're able to successfully parse and aggregate the template,
-            // serve it
-            Ok(html) => Html(html).into_response(),
-            // If we're not, return an error or some bit of fallback HTML
-            Err(err) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                format!("Failed to render template. Error: {}", err),
-            )
-                .into_response(),
-        }
-    }
+    _ = Redirect::permanent("/home")
 }
 
-#[derive(Template)]
+#[derive(Template, IntoResponse)]
 #[template(path = "home.html")]
-struct HomeTemplate
+pub struct HomeTemplate
 {
     name: String,
 }
 
-pub async fn home(State(state): State<AppState>) -> impl IntoResponse
+#[axum::debug_handler]
+pub async fn home(State(state): State<AppState>) -> HomeTemplate
 {
-    let template = HomeTemplate {
-        name: state.app_name,
-    };
-    HtmlTemplate(template)
+    HomeTemplate {
+        name: state.app_name.clone(),
+    }
+}
+
+#[derive(Template, IntoResponse)]
+#[template(path = "todolist.html")]
+pub struct TodoListTemplate {}
+
+#[axum::debug_handler]
+pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
+{
+    TodoListTemplate {}
+}
+
+#[derive(Template, IntoResponse)]
+#[template(path = "about.html")]
+pub struct AboutTemplate {}
+
+#[axum::debug_handler]
+pub async fn about(State(state): State<AppState>) -> AboutTemplate
+{
+    AboutTemplate {}
 }

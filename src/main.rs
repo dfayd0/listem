@@ -1,7 +1,6 @@
 mod routes;
 
 use axum::{
-    response::Redirect,
     routing::get,
     Router,
 };
@@ -33,13 +32,15 @@ async fn main()
     // the state is done at init, and wil not be duplicated by different
     // connections to the server
     let state = AppState {
-        app_name: "Listem".to_string(),
+        app_name: "Listem".to_owned(),
     };
 
     info!("Initializing server...");
     let app = Router::new()
-        .route("/", get(|| async { Redirect::permanent("/home") }))
+        .route("/", get(routes::index))
         .route("/home", get(routes::home))
+        .route("/todolist", get(routes::todolist))
+        .route("/about", get(routes::about))
         .with_state(state)
         .nest_service("/static", ServeDir::new("static"));
 

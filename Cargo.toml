@@ -5,23 +5,22 @@ edition = "2021"
 publish = false
 
 [dependencies]
-lazy_static = "1.4.0"
 serde = "1.0.152"
-diesel = { version = "2.1.0", features = [
-  "sqlite",
-  "returning_clauses_for_sqlite_3_35",
-  "r2d2",
-  "chrono",
-] }
 dotenvy = "0.15"
 r2d2 = "0.8.10"
 r2d2-diesel = "1.0"
 chrono = { version = "0.4.9", features = ["serde"] }
-axum = "0.8.1"
-askama = "0.12.1"
+axum = { version = "0.8.1", features = ["macros"] }
+askama = {version = "0.12.1" }
 tokio = { version = "1.44.0", features = ["full"] }
 tower-http = { version = "0.6.2", features = ["full"] }
 tracing = "0.1.41"
 tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 tower = "0.5.2"
+askama-derive-axum = "0.1.2"
+axum-core = "0.5.0"
+http = "1.2.0"
 
+
+[profile.dev.package.askama_derive]
+opt-level = 3
