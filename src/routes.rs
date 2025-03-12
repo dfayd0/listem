@@ -5,11 +5,14 @@ use axum::{
     response::Redirect,
 };
 
-use crate::AppState;
+use crate::{
+    models::Todo,
+    AppState,
+};
 
-pub async fn index()
+pub async fn index() -> Redirect
 {
-    _ = Redirect::permanent("/home")
+    Redirect::permanent("/home")
 }
 
 #[derive(Template, IntoResponse)]
@@ -29,12 +32,17 @@ pub async fn home(State(state): State<AppState>) -> HomeTemplate
 
 #[derive(Template, IntoResponse)]
 #[template(path = "todolist.html")]
-pub struct TodoListTemplate {}
+pub struct TodoListTemplate
+{
+    todos: Vec<Todo>,
+}
 
 #[axum::debug_handler]
 pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
 {
-    TodoListTemplate {}
+    TodoListTemplate {
+        todos: vec![]
+    }
 }
 
 #[derive(Template, IntoResponse)]

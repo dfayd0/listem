@@ -1,4 +1,7 @@
-mod routes;
+pub mod db;
+pub mod models;
+pub mod routes;
+pub mod schema;
 
 use axum::{
     routing::get,

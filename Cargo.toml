@@ -20,6 +20,7 @@ tower = "0.5.2"
 askama-derive-axum = "0.1.2"
 axum-core = "0.5.0"
 http = "1.2.0"
+diesel = { version = "2.2.8", features = ["sqlite", "returning_clauses_for_sqlite_3_35"] }
 
 
 [profile.dev.package.askama_derive]

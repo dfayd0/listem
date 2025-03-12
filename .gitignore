@@ -1,3 +1,4 @@
 /target
 .env
 mvp.html
+database/database.db
