@@ -62,3 +62,12 @@ pub fn get_todos(conn: &mut SqliteConnection) -> Vec<Todo>
 
     todos.load::<Todo>(conn).expect("Error loading todos")
 }
+
+pub fn delete_todo_by_id(conn: &mut SqliteConnection, todo_id: i32)
+{
+    use crate::schema::todos::dsl::*;
+
+    diesel::delete(todos.filter(id.eq(todo_id)))
+        .execute(conn)
+        .expect("Error deleting todo");
+}

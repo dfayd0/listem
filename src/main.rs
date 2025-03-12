@@ -5,6 +5,7 @@ pub mod schema;
 
 use axum::{
     routing::{
+        delete,
         get,
         post,
     },
@@ -56,6 +57,7 @@ async fn main()
         .route("/todolist", get(routes::todolist))
         .route("/add_todo", post(routes::add_todo))
         .route("/about", get(routes::about))
+        .route("/delete_todo/{id}", delete(routes::delete_todo))
         .with_state(state)
         .nest_service("/static", ServeDir::new("static"));
 

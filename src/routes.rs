@@ -1,3 +1,5 @@
+use ::axum::extract::Path;
+use ::tracing::info;
 use askama::Template;
 use askama_derive_axum::IntoResponse;
 use axum::{
@@ -7,6 +9,7 @@ use axum::{
     },
     response::Redirect,
 };
+use diesel::query_dsl::methods::FilterDsl;
 
 use crate::{
     db,
@@ -91,4 +94,21 @@ pub async fn add_todo(
     TodoTemplate {
         todo: new_todo
     }
+}
+
+#[axum::debug_handler]
+pub async fn delete_todo(
+    State(state): State<AppState>, Path(todo_id): Path<i32>,
+) -> axum::http::StatusCode
+{
+    // Get a DB connection from the pool
+    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
+
+    db::delete_todo_by_id(&mut conn, todo_id);
+
+    info!("Deleted todo with id {}", todo_id);
+
+    // If you want to differentiate "not found", you could check rows_deleted ==
+    // 0 and return 404 For now, always return 200 OK if no DB error
+    axum::http::StatusCode::OK
 }

@@ -1,18 +1,8 @@
-{# pub struct TodoTemplate
-{
-pub id: i32,
-pub title: String,
-pub description: String,
-pub completed: bool,
-} #}
-
-{# <aside>
-    <h3>{{ todo.title }}</h3>
-    <p>{{ todo.description }}</p>
-</aside> #}
-
-
 <aside class="todo-card" data-todo-id="{{ todo.id }}">
+
+    <img hx-delete="/delete_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML"
+        src="/static/icons/x.svg" class="icon del-icon" alt="Close Icon">
+
     <h3 {% if todo.completed %} class="completed" {% endif %}>
         {{ todo.title }}
     </h3>

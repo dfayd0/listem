@@ -20,20 +20,18 @@
 <section>
 
     <form hx-post="/add_todo" hx-target="#todos" hx-swap="beforeend">
-        <header>
-            <h2>Let's create a todo</h2>
-        </header>
+
         <label for="todo">What would you like to get done?</label>
-        <input name="title" type="text" id="add-todo" size="20" placeholder="Clean my ass?">
+        <input name="title" type="text" id="add-todo" size="20" placeholder="it could be anything.." required>
         <label for="value">How important is it?</label>
         <select id="importance" name="importance">
             <option value="low">low</option>
             <option value="medium">medium</option>
             <option value="high">high</option>
         </select>
-        <label for="description">Despcription</label>
+        <label for="description">Description</label>
         <textarea cols="20" rows="4" id="description" name="description" placeholder="(optional)"></textarea>
-        <button type="submit">Submit</button>
+        <button type="submit">Create</button>
     </form>
 
 </section>
