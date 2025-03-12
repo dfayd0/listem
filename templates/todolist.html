@@ -4,54 +4,39 @@
 
 {% block content %}
 
-<main>
+{# <section>
+    <h2>My todos</h2>
+</section> #}
 
-    {# list + edit + delete todos #}
+<section>
+    <div>
+        {% for todo in todos %}
+        {% include "todo.html" %}
+        {% endfor %}
+    </div>
+</section>
 
-    <section>
+<hr>
+<section>
 
-        <h2>My Todos</h2>
+    <form action="/add_todo" method="POST">
+        <header>
+            <h2>Let's create a todo</h2>
+        </header>
+        <label for="todo">What would you like to get done?</label>
+        <input name="title" type="text" id="add-todo" size="20" placeholder="Clean my ass?">
+        <label for="value">How important is it?</label>
+        <select id="importance" name="importance">
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high">high</option>
+        </select>
+        <label for="description">Despcription</label>
+        <textarea cols="20" rows="4" id="description" name="description" placeholder="(optional)"></textarea>
+        <button type="submit">Submit</button>
+    </form>
 
-        <ul>
-            {% for todo in todos %}
-            <li>
-                {# <span>{{ todo.title }}</span>
-                <span>{{ todo.description }}</span>
-                <span>{{ todo.created_at }}</span>
-                <span>{{ todo.updated_at }}</span>
-                <span>{{ todo.completed }}</span> #}
-            </li>
-            {% endfor %}
-        </ul>
+</section>
 
-    </section>
-
-    {# add todo #}
-
-    <section>
-
-        <form>
-            <header>
-                <h2>Let's create a todo</h2>
-            </header>
-            <label for="todo">What would you like to get done?</label>
-            <input type="text" id="add-todo" name="todo" size="20" placeholder="todo">
-            <label for="value">How important is it?</label>
-            <select id="importance">
-                <option value="low">low</option>
-                <option value="medium">medium</option>
-                <option value="high">high</option>
-            </select>
-            <label for="description">Despcription</label>
-            <textarea cols="20" rows="4" id="description" placeholder="(optional)"></textarea>
-            <button type="submit">Submit</button>
-        </form>
-
-    </section>
-
-
-
-
-</main>
 
 {% endblock content %}

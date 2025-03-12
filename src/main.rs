@@ -4,8 +4,18 @@ pub mod routes;
 pub mod schema;
 
 use axum::{
-    routing::get,
+    routing::{
+        get,
+        post,
+    },
     Router,
+};
+use diesel::{
+    prelude::*,
+    r2d2::{
+        ConnectionManager,
+        Pool,
+    },
 };
 use tower_http::services::ServeDir;
 use tracing::info;
@@ -18,7 +28,7 @@ use tracing_subscriber::{
 pub struct AppState
 {
     app_name: String,
-    // db_pool:
+    db_pool:  Pool<ConnectionManager<SqliteConnection>>,
 }
 
 #[tokio::main]
@@ -36,6 +46,7 @@ async fn main()
     // connections to the server
     let state = AppState {
         app_name: "Listem".to_owned(),
+        db_pool:  db::create_db_pool(),
     };
 
     info!("Initializing server...");
@@ -43,6 +54,7 @@ async fn main()
         .route("/", get(routes::index))
         .route("/home", get(routes::home))
         .route("/todolist", get(routes::todolist))
+        .route("/add_todo", post(routes::add_todo))
         .route("/about", get(routes::about))
         .with_state(state)
         .nest_service("/static", ServeDir::new("static"));

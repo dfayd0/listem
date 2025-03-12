@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-serde = "1.0.152"
+serde = { version = "1.0.152", features = ["serde_derive"] }
 dotenvy = "0.15"
 chrono = { version = "0.4.9", features = ["serde"] }
 axum = { version = "0.8.1", features = ["macros"] }
