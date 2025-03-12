@@ -9,7 +9,7 @@
 </section> #}
 
 <section>
-    <div>
+    <div id="todos">
         {% for todo in todos %}
         {% include "todo.html" %}
         {% endfor %}
@@ -19,7 +19,7 @@
 <hr>
 <section>
 
-    <form action="/add_todo" method="POST">
+    <form hx-post="/add_todo" hx-target="#todos" hx-swap="beforeend">
         <header>
             <h2>Let's create a todo</h2>
         </header>

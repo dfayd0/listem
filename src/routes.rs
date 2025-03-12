@@ -91,9 +91,9 @@ pub async fn add_todo(
         .get()
         .expect("Failed to get DB connection from pool");
 
-    let todo = db::create_todo(&mut conn, &form.title, &form.description);
+    let new_todo = db::create_todo(&mut conn, &form.title, &form.description);
 
     TodoTemplate {
-        todo,
+        todo: new_todo
     }
 }
