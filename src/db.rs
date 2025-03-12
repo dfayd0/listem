@@ -43,16 +43,11 @@ use crate::models::{
 // inserted, call .execute instead. The compiler won’t complain at you, that
 // way. :)
 
-pub fn create_todo<'a>(
-    conn: &mut SqliteConnection, title: &'a str, description: &'a str,
-) -> Todo
+pub fn create_todo<'a>(conn: &mut SqliteConnection, new_todo: NewTodo) -> Todo
 {
     use crate::schema::todos;
 
-    let new_todo = NewTodo {
-        title,
-        description,
-    };
+    let new_todo = new_todo;
 
     diesel::insert_into(todos::table)
         .values(&new_todo)

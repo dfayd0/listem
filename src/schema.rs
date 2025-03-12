@@ -5,6 +5,7 @@ diesel::table! {
         id -> Integer,
         title -> Text,
         description -> Text,
+        importance -> Text,
         completed -> Bool,
     }
 }

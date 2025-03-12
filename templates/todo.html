@@ -6,7 +6,25 @@ pub description: String,
 pub completed: bool,
 } #}
 
-<aside>
+{# <aside>
     <h3>{{ todo.title }}</h3>
     <p>{{ todo.description }}</p>
+</aside> #}
+
+
+<aside class="todo-card" data-todo-id="{{ todo.id }}">
+    <h3 {% if todo.completed %} class="completed" {% endif %}>
+        {{ todo.title }}
+    </h3>
+
+    <p>{{ todo.description }}</p>
+
+    <p class="todo-status">
+        Status:
+        {% if todo.completed %}
+        Completed
+        {% else %}
+        Not completed
+        {% endif %}
+    </p>
 </aside>

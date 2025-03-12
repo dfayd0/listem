@@ -1,13 +1,19 @@
 use askama::Template;
 use askama_derive_axum::IntoResponse;
 use axum::{
-    extract::State,
+    extract::{
+        Form,
+        State,
+    },
     response::Redirect,
 };
 
 use crate::{
     db,
-    models::Todo,
+    models::{
+        NewTodo,
+        Todo,
+    },
     AppState,
 };
 
@@ -21,7 +27,7 @@ pub async fn index() -> Redirect
 pub struct AboutTemplate {}
 
 #[axum::debug_handler]
-pub async fn about(State(state): State<AppState>) -> AboutTemplate
+pub async fn about(State(_state): State<AppState>) -> AboutTemplate
 {
     AboutTemplate {}
 }
@@ -70,20 +76,9 @@ pub struct TodoTemplate
     todo: Todo,
 }
 
-use serde::Deserialize;
-
-#[derive(Deserialize)]
-pub struct CreateTodoForm
-{
-    pub title:       String,
-    pub importance:  String,
-    pub description: String,
-}
-
-use axum::extract::Form;
 #[axum::debug_handler]
 pub async fn add_todo(
-    State(state): State<AppState>, Form(form): Form<CreateTodoForm>,
+    State(state): State<AppState>, Form(form): Form<NewTodo>,
 ) -> TodoTemplate
 {
     let mut conn = state
@@ -91,7 +86,7 @@ pub async fn add_todo(
         .get()
         .expect("Failed to get DB connection from pool");
 
-    let new_todo = db::create_todo(&mut conn, &form.title, &form.description);
+    let new_todo: Todo = db::create_todo(&mut conn, form);
 
     TodoTemplate {
         todo: new_todo

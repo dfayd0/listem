@@ -1,4 +1,7 @@
 use diesel::prelude::*;
+use serde::Deserialize;
+
+use crate::schema::todos;
 
 #[derive(Queryable, Selectable)]
 #[diesel(table_name = crate::schema::todos)]
@@ -8,15 +11,15 @@ pub struct Todo
     pub id:          i32,
     pub title:       String,
     pub description: String,
+    pub importance:  String,
     pub completed:   bool,
 }
 
-use crate::schema::todos;
-
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize)]
 #[diesel(table_name = todos)]
-pub struct NewTodo<'a>
+pub struct NewTodo
 {
-    pub title:       &'a str,
-    pub description: &'a str,
+    pub title:       String,
+    pub description: String,
+    pub importance:  String,
 }
