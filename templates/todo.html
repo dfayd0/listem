@@ -1,8 +1,8 @@
 <aside class="todo-card {% if todo.completed %} completed{% endif %}" data-todo-id="{{ todo.id }}"
-    hx-put="/toggle_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML" hx-trigger="click">
+    hx-put="/toggle_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML">
 
     <img hx-delete="/delete_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML"
-        src="/static/icons/x.svg" class="icon del-icon" alt="Close Icon">
+        src="/static/icons/x.svg" class="icon del-icon" alt="Close Icon" onclick="event.stopPropagation()">
 
     <img hx-update="/update_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML"
         src="/static/icons/edit-2.svg" class="icon edit-icon" alt="Edit Icon">
@@ -12,5 +12,4 @@
     </h3>
 
     <p>{{ todo.description }}</p>
-
 </aside>

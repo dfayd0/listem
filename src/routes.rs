@@ -99,7 +99,7 @@ pub async fn add_todo(
 #[axum::debug_handler]
 pub async fn delete_todo(
     State(state): State<AppState>, Path(todo_id): Path<i32>,
-) -> axum::http::StatusCode
+) -> impl axum::response::IntoResponse
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
 
