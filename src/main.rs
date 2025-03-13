@@ -8,6 +8,7 @@ use axum::{
         delete,
         get,
         post,
+        put,
     },
     Router,
 };
@@ -58,6 +59,7 @@ async fn main()
         .route("/add_todo", post(routes::add_todo))
         .route("/about", get(routes::about))
         .route("/delete_todo/{id}", delete(routes::delete_todo))
+        .route("/toggle_todo/{id}", put(routes::toggle_todo))
         .with_state(state)
         .nest_service("/static", ServeDir::new("static"));
 

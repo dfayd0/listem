@@ -1,5 +1,6 @@
 #![allow(unexpected_cfgs)]
 use ::axum::extract::Path;
+use ::tracing::info;
 use askama::Template;
 use askama_derive_axum::IntoResponse;
 use axum::{
@@ -100,10 +101,25 @@ pub async fn delete_todo(
     State(state): State<AppState>, Path(todo_id): Path<i32>,
 ) -> axum::http::StatusCode
 {
-    // Get a DB connection from the pool
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
 
     db::delete_todo_by_id(&mut conn, todo_id);
 
     axum::http::StatusCode::OK
+}
+
+#[axum::debug_handler]
+pub async fn toggle_todo(
+    State(state): State<AppState>, Path(todo_id): Path<i32>,
+) -> TodoTemplate
+{
+    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
+
+    let todo = db::toggle_todo_by_id(&mut conn, todo_id);
+
+    info!("Toggled todo: {:?}", todo);
+
+    TodoTemplate {
+        todo,
+    }
 }

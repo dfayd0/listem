@@ -71,3 +71,21 @@ pub fn delete_todo_by_id(conn: &mut SqliteConnection, todo_id: i32)
         .execute(conn)
         .expect("Error deleting todo");
 }
+
+pub fn toggle_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
+{
+    use crate::schema::todos::dsl::*;
+
+    let todo = todos
+        .find(todo_id)
+        .first::<Todo>(conn)
+        .expect("Error loading todo");
+
+    let new_status = !todo.completed;
+
+    diesel::update(todos.find(todo_id))
+        .set(completed.eq(new_status))
+        .returning(Todo::as_returning())
+        .get_result(conn)
+        .expect("Error updating todo")
+}

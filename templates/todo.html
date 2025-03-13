@@ -1,7 +1,11 @@
-<aside class="todo-card" data-todo-id="{{ todo.id }}">
+<aside class="todo-card {% if todo.completed %} completed{% endif %}" data-todo-id="{{ todo.id }}"
+    hx-put="/toggle_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML" hx-trigger="click">
 
     <img hx-delete="/delete_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML"
         src="/static/icons/x.svg" class="icon del-icon" alt="Close Icon">
+
+    <img hx-update="/update_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML"
+        src="/static/icons/edit-2.svg" class="icon edit-icon" alt="Edit Icon">
 
     <h3 {% if todo.completed %} class="completed" {% endif %}>
         {{ todo.title }}
@@ -9,7 +13,7 @@
 
     <p>{{ todo.description }}</p>
 
-    <p class="todo-status">
+    <p>
         Status:
         {% if todo.completed %}
         Completed

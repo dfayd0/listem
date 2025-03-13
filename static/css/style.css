@@ -32,12 +32,11 @@ aside.todo-card p {
 
 .todo-card {
     position: relative;
+    cursor: pointer;
 }
 
 .icon {
     position: absolute;
-    top: 0;
-    right: 0;
     padding: 10px;
     cursor: pointer;
 }
@@ -45,4 +44,20 @@ aside.todo-card p {
 .icon:hover {
 
     border: 1px solid black;
+}
+
+.del-icon {
+    top: 0;
+    right: 0;
+}
+
+.edit-icon {
+    bottom: 0;
+    right: 0;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.7;
+
 }

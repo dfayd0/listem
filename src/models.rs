@@ -3,7 +3,7 @@ use serde::Deserialize;
 
 use crate::schema::todos;
 
-#[derive(Queryable, Selectable)]
+#[derive(Queryable, Selectable, Debug)]
 #[diesel(table_name = crate::schema::todos)]
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Todo
