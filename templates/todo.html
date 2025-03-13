@@ -7,18 +7,10 @@
     <img hx-update="/update_todo/{{ todo.id }}" hx-target="closest .todo-card" hx-swap="outerHTML"
         src="/static/icons/edit-2.svg" class="icon edit-icon" alt="Edit Icon">
 
-    <h3 {% if todo.completed %} class="completed" {% endif %}>
+    <h3 class="todo-title {% if todo.completed %}completed{% endif %}"">
         {{ todo.title }}
     </h3>
 
     <p>{{ todo.description }}</p>
 
-    <p>
-        Status:
-        {% if todo.completed %}
-        Completed
-        {% else %}
-        Not completed
-        {% endif %}
-    </p>
 </aside>

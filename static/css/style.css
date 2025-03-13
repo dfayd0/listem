@@ -39,16 +39,25 @@ aside.todo-card p {
     position: absolute;
     padding: 10px;
     cursor: pointer;
+    border: 1px solid transparent;
+    transition: border 0.2s;
 }
 
 .icon:hover {
-
     border: 1px solid black;
 }
 
 .del-icon {
     top: 0;
     right: 0;
+}
+
+.del-card:hover {
+    background-color: rgb(255, 255, 0);
+}
+
+.todo-card:hover:not(:has(.del-icon:hover, .edit-icon:hover)) {
+    background-color: rgb(12, 255, 12);
 }
 
 .edit-icon {
@@ -59,5 +68,10 @@ aside.todo-card p {
 .completed {
     text-decoration: line-through;
     opacity: 0.7;
+}
 
+.todo-title {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
