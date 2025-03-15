@@ -1,10 +1,7 @@
-<form hx-put="/edit/{{ todo.id }}" hx-target="this" hx-swap="outerHTML">
+<form hx-post="/edit/{{ todo.id }}" hx-target="this" hx-swap="outerHTML">
   <aside
     class="todo-card {% if todo.completed %}completed{% endif %}"
     data-todo-id="{{ todo.id }}"
-    hx-put="/toggle_todo/{{ todo.id }}"
-    hx-target="closest .todo-card"
-    hx-swap="outerHTML"
   >
     <img
       hx-delete="/delete_todo/{{ todo.id }}"
@@ -16,18 +13,34 @@
       onclick="event.stopPropagation()"
     />
 
-    <img
-      src="/static/icons/edit-2.svg"
-      alt="Edit Icon"
-      hx-get="/edit_todo/{{ todo.id }}"
-      class="icon edit-icon"
+    <input type="hidden" name="id" value="{{ todo.id }}" />
+    <input type="hidden" name="completed" value="{{ todo.completed }}" />
+
+    <input
+      type="text"
+      name="title"
+      value="{{ todo.title }}"
+      class="todo-title {% if todo.completed %}completed{% endif %}"
       onclick="event.stopPropagation()"
+      required
     />
 
-    <h3 class="todo-title {% if todo.completed %}completed{% endif %}">
-      {{ todo.title }}
-    </h3>
+    <select name="importance">
+        <option value="low" {% if todo.importance == "low" %}selected{% endif %}>Low</option>
+        <option value="medium" {% if todo.importance == "medium" %}selected{% endif %}>Medium</option>
+        <option value="high" {% if todo.importance == "high" %}selected{% endif %}>High</option>
+    </select>
 
-    <p>{{ todo.description }}</p>
+    <textarea name="description" onclick="event.stopPropagation()" required>
+{{ todo.description }}
+</textarea
+    >
+
+    <img
+      src="/static/icons/check-circle.svg"
+      alt="Edit Icon"
+      class="icon edit-icon"
+      onclick="this.closest('form').requestSubmit(); event.stopPropagation();"
+    />
   </aside>
 </form>

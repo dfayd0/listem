@@ -61,7 +61,7 @@ async fn main()
         .route("/delete_todo/{id}", delete(routes::delete_todo))
         .route("/toggle_todo/{id}", put(routes::toggle_todo))
         .route("/edit_form/{id}", put(routes::edit_todo_form))
-        .route("/edit/{id}", put(routes::edit_todo))
+        .route("/edit/{id}", post(routes::edit_todo))
         .with_state(state)
         .nest_service("/static", ServeDir::new("static"));
 
