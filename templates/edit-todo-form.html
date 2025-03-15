@@ -1,0 +1,33 @@
+<form hx-put="/edit/{{ todo.id }}" hx-target="this" hx-swap="outerHTML">
+  <aside
+    class="todo-card {% if todo.completed %}completed{% endif %}"
+    data-todo-id="{{ todo.id }}"
+    hx-put="/toggle_todo/{{ todo.id }}"
+    hx-target="closest .todo-card"
+    hx-swap="outerHTML"
+  >
+    <img
+      hx-delete="/delete_todo/{{ todo.id }}"
+      hx-target="closest .todo-card"
+      hx-swap="outerHTML"
+      src="/static/icons/x.svg"
+      class="icon del-icon"
+      alt="Close Icon"
+      onclick="event.stopPropagation()"
+    />
+
+    <img
+      src="/static/icons/edit-2.svg"
+      alt="Edit Icon"
+      hx-get="/edit_todo/{{ todo.id }}"
+      class="icon edit-icon"
+      onclick="event.stopPropagation()"
+    />
+
+    <h3 class="todo-title {% if todo.completed %}completed{% endif %}">
+      {{ todo.title }}
+    </h3>
+
+    <p>{{ todo.description }}</p>
+  </aside>
+</form>

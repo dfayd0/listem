@@ -2,7 +2,10 @@ use ::dotenvy::dotenv;
 use ::std::env;
 use diesel::{
     prelude::*,
-    r2d2::{ConnectionManager, Pool},
+    r2d2::{
+        ConnectionManager,
+        Pool,
+    },
 };
 
 pub fn establish_connection() -> SqliteConnection
@@ -29,7 +32,10 @@ pub fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>>
         .expect("Failed to create pool")
 }
 
-use crate::models::{NewTodo, Todo};
+use crate::models::{
+    NewTodo,
+    Todo,
+};
 
 // Diesel can insert more than one record in a single query. Just pass a Vec
 // or slice to insert_into, and then call get_results instead of get_result.
@@ -37,10 +43,7 @@ use crate::models::{NewTodo, Todo};
 // inserted, call .execute instead. The compiler won’t complain at you, that
 // way. :)
 
-pub fn create_todo<'a>(
-    conn: &mut SqliteConnection,
-    new_todo: NewTodo,
-) -> Todo
+pub fn create_todo<'a>(conn: &mut SqliteConnection, new_todo: NewTodo) -> Todo
 {
     use crate::schema::todos;
 
@@ -60,10 +63,7 @@ pub fn get_todos(conn: &mut SqliteConnection) -> Vec<Todo>
     todos.load::<Todo>(conn).expect("Error loading todos")
 }
 
-pub fn delete_todo_by_id(
-    conn: &mut SqliteConnection,
-    todo_id: i32,
-)
+pub fn delete_todo_by_id(conn: &mut SqliteConnection, todo_id: i32)
 {
     use crate::schema::todos::dsl::*;
 
@@ -72,10 +72,17 @@ pub fn delete_todo_by_id(
         .expect("Error deleting todo");
 }
 
-pub fn toggle_todo_by_id(
-    conn: &mut SqliteConnection,
-    todo_id: i32,
-) -> Todo
+pub fn get_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
+{
+    use crate::schema::todos::dsl::*;
+
+    todos
+        .find(todo_id)
+        .first::<Todo>(conn)
+        .expect("Error loading todo")
+}
+
+pub fn toggle_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
 {
     use crate::schema::todos::dsl::*;
 
@@ -93,10 +100,7 @@ pub fn toggle_todo_by_id(
         .expect("Error updating todo")
 }
 
-pub fn edit_todo(
-    conn: &mut SqliteConnection,
-    todo: Todo,
-) -> Todo
+pub fn edit_todo(conn: &mut SqliteConnection, todo: Todo) -> Todo
 {
     use crate::schema::todos::dsl::*;
 
