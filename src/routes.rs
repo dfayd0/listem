@@ -4,19 +4,13 @@ use ::tracing::info;
 use askama::Template;
 use askama_derive_axum::IntoResponse;
 use axum::{
-    extract::{
-        Form,
-        State,
-    },
+    extract::{Form, State},
     response::Redirect,
 };
 
 use crate::{
     db,
-    models::{
-        NewTodo,
-        Todo,
-    },
+    models::{NewTodo, Todo},
     AppState,
 };
 
@@ -67,9 +61,7 @@ pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
 
     let todos = db::get_todos(&mut conn);
 
-    TodoListTemplate {
-        todos,
-    }
+    TodoListTemplate { todos }
 }
 
 #[derive(Template, IntoResponse)]
@@ -81,7 +73,8 @@ pub struct TodoTemplate
 
 #[axum::debug_handler]
 pub async fn add_todo(
-    State(state): State<AppState>, Form(form): Form<NewTodo>,
+    State(state): State<AppState>,
+    Form(form): Form<NewTodo>,
 ) -> TodoTemplate
 {
     let mut conn = state
@@ -91,14 +84,13 @@ pub async fn add_todo(
 
     let new_todo: Todo = db::create_todo(&mut conn, form);
 
-    TodoTemplate {
-        todo: new_todo
-    }
+    TodoTemplate { todo: new_todo }
 }
 
 #[axum::debug_handler]
 pub async fn delete_todo(
-    State(state): State<AppState>, Path(todo_id): Path<i32>,
+    State(state): State<AppState>,
+    Path(todo_id): Path<i32>,
 ) -> impl axum::response::IntoResponse
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
@@ -110,7 +102,8 @@ pub async fn delete_todo(
 
 #[axum::debug_handler]
 pub async fn toggle_todo(
-    State(state): State<AppState>, Path(todo_id): Path<i32>,
+    State(state): State<AppState>,
+    Path(todo_id): Path<i32>,
 ) -> TodoTemplate
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
@@ -119,7 +112,20 @@ pub async fn toggle_todo(
 
     info!("Toggled todo: {:?}", todo);
 
-    TodoTemplate {
-        todo,
-    }
+    TodoTemplate { todo }
+}
+
+#[axum::debug_handler]
+pub async fn edit_todo(
+    State(state): State<AppState>,
+    Form(todo): Form<Todo>,
+) -> TodoTemplate
+{
+    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
+
+    let new_todo = db::edit_todo(&mut conn, todo.clone());
+
+    info!("Edited todo: changed {:?} to {:?}", todo, new_todo);
+
+    TodoTemplate { todo }
 }
