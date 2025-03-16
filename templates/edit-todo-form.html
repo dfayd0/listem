@@ -33,8 +33,9 @@
 
     <textarea name="description" onclick="event.stopPropagation()" required>
 {{ todo.description }}
-</textarea
-    >
+</textarea>
+
+    <small class="todo-date"> {{ todo.created_at }} </small>
 
     <img
       src="/static/icons/check-circle.svg"

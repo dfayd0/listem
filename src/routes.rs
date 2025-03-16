@@ -16,6 +16,7 @@ use crate::{
     models::{
         NewTodo,
         Todo,
+        TodoForm,
     },
     AppState,
 };
@@ -149,16 +150,15 @@ pub async fn edit_todo_form(
 
 #[axum::debug_handler]
 pub async fn edit_todo(
-    State(state): State<AppState>, Form(todo): Form<Todo>,
+    State(state): State<AppState>, Form(todo): Form<TodoForm>,
 ) -> TodoTemplate
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
 
-    let new_todo = db::edit_todo(&mut conn, todo.clone());
-
-    info!("Edited todo: changed {:?} to {:?}", todo, new_todo);
+    info!("Edited todo: changing {:?}", &todo);
+    let new_todo = db::edit_todo(&mut conn, todo);
 
     TodoTemplate {
-        todo,
+        todo: new_todo
     }
 }

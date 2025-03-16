@@ -8,18 +8,29 @@ use crate::schema::todos;
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct Todo
 {
-    pub id: i32,
-    pub title: String,
+    pub id:          i32,
+    pub title:       String,
     pub description: String,
-    pub importance: String,
-    pub completed: bool,
+    pub importance:  String,
+    pub completed:   bool,
+    pub created_at:  chrono::NaiveDateTime,
 }
 
 #[derive(Insertable, Deserialize)]
 #[diesel(table_name = todos)]
 pub struct NewTodo
 {
-    pub title: String,
+    pub title:       String,
     pub description: String,
-    pub importance: String,
+    pub importance:  String,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+pub struct TodoForm
+{
+    pub id:          i32,
+    pub title:       String,
+    pub description: String,
+    pub importance:  String,
+    pub completed:   bool,
 }

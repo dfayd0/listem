@@ -7,5 +7,6 @@ diesel::table! {
         description -> Text,
         importance -> Text,
         completed -> Bool,
+        created_at -> Timestamp,
     }
 }

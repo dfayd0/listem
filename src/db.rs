@@ -8,6 +8,12 @@ use diesel::{
     },
 };
 
+use crate::models::{
+    NewTodo,
+    Todo,
+    TodoForm,
+};
+
 pub fn establish_connection() -> SqliteConnection
 {
     dotenv().ok();
@@ -31,11 +37,6 @@ pub fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>>
         .build(manager)
         .expect("Failed to create pool")
 }
-
-use crate::models::{
-    NewTodo,
-    Todo,
-};
 
 // Diesel can insert more than one record in a single query. Just pass a Vec
 // or slice to insert_into, and then call get_results instead of get_result.
@@ -100,7 +101,7 @@ pub fn toggle_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
         .expect("Error updating todo")
 }
 
-pub fn edit_todo(conn: &mut SqliteConnection, todo: Todo) -> Todo
+pub fn edit_todo(conn: &mut SqliteConnection, todo: TodoForm) -> Todo
 {
     use crate::schema::todos::dsl::*;
 

@@ -7,7 +7,6 @@ publish = false
 [dependencies]
 serde = { version = "1.0.152", features = ["serde_derive"] }
 dotenvy = "0.15"
-chrono = { version = "0.4.9", features = ["serde"] }
 axum = { version = "0.8.1", features = ["macros"] }
 askama = {version = "0.12.1" }
 tokio = { version = "1.44.0", features = ["full"] }
@@ -18,7 +17,8 @@ tower = "0.5.2"
 askama-derive-axum = "0.1.2"
 axum-core = "0.5.0"
 http = "1.2.0"
-diesel = { version = "2.2.8", features = ["sqlite", "returning_clauses_for_sqlite_3_35", "r2d2"] }
+diesel = { version = "2.2.8", features = ["sqlite", "returning_clauses_for_sqlite_3_35", "r2d2", "chrono", "serde_json"] }
+chrono = { version = "0.4.40", features = ["serde"] }
 
 
 [profile.dev.package.askama_derive]
