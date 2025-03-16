@@ -26,7 +26,8 @@
   />
 
   <h3 class="todo-title {% if todo.completed %}completed{% endif %}">
-    {{ todo.title }} <sup>{{ todo.importance }}</sup>
+    {{ todo.title }}
+    <sup class="importance-{{ todo.importance }}">{{ todo.importance }}</sup>
   </h3>
 
   <p>

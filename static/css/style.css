@@ -88,3 +88,13 @@ aside.todo-card p {
 .todo-card:hover .icon {
     opacity: 1;
 }
+
+/* .importance-low {} */
+
+.importance-medium {
+    background-color: #ffdd00;
+}
+
+.importance-high {
+    background-color: #ff0000;
+}
