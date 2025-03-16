@@ -1,14 +1,16 @@
-{% extends "base.html" %}
-
-{% block title %}Home{% endblock title %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Home{% endblock title %} {% block
+content %}
 
 <header>
-    <h1>Todolist made <i>elegant</i> and <u>Simple</u></h1>
-    <p>built with <mark>Rust + HTMX + Askama</mark></p>
-    <br>
-    <p><a href="/about"><i>More about {{ name }}</i></a><a href="/todolist"><b>Let's Start Doing &rarr;</b></a></p>
+  <h1>Todolist made <i>elegant</i> and <u>Simple</u></h1>
+  <p>
+    built with <mark><u>Rust</u> + <u>HTMX</u></mark>
+  </p>
+  <br />
+  <p>
+    <a href="/about"><i>More about {{ name }}</i></a
+    ><a href="/todolist"><b>Let's Start Doing &rarr;</b></a>
+  </p>
 </header>
 
 {% endblock content %}

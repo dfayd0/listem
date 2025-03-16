@@ -1,11 +1,31 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}About{% endblock title %} {% block
+content %}
+<header>
+  <h1>About Listem</h1>
+  <p>
+    A simple, efficient, and fast todo-list manager built with Rust and HTMX.
+  </p>
+</header>
 
-{% block title %}Home{% endblock title %}
+<section>
+  <h2>What is Listem?</h2>
+  <p>
+    Listem is a lightweight task manager designed to help you stay organized
+    with a minimal and responsive UI. It leverages <strong>Axum</strong> for
+    backend performance and <strong>HTMX</strong> for seamless interactions.
+  </p>
+</section>
 
-{% block content %}
-
-    <header>
-    
-    </header>
+<h2>Features</h2>
+<section>
+  <ul>
+    <li>🚀 <b>Fast & lightweight</b> - No unnecessary page reloads.</li>
+    <li>✅ <b>Inline editing</b> - Modify tasks without navigating away.</li>
+    <li>🎯 <b>Prioritization</b> - Set task importance levels.</li>
+    <li>
+      🌙 <b>Dark Mode support</b> - Sleek UI that adapts to your preference.
+    </li>
+  </ul>
+</section>
 
 {% endblock content %}
