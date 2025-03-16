@@ -1,6 +1,5 @@
 #![allow(unexpected_cfgs)]
 use ::axum::extract::Path;
-use ::tracing::info;
 use askama::Template;
 use askama_derive_axum::IntoResponse;
 use axum::{
@@ -61,11 +60,7 @@ pub struct TodoListTemplate
 #[axum::debug_handler]
 pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
 {
-    let mut conn = state
-        .db_pool
-        .get()
-        .expect("Failed to get DB connection from pool");
-
+    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
     let todos = db::get_todos(&mut conn);
 
     TodoListTemplate {
@@ -85,11 +80,7 @@ pub async fn add_todo(
     State(state): State<AppState>, Form(form): Form<NewTodo>,
 ) -> TodoTemplate
 {
-    let mut conn = state
-        .db_pool
-        .get()
-        .expect("Failed to get DB connection from pool");
-
+    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
     let new_todo: Todo = db::create_todo(&mut conn, form);
 
     TodoTemplate {
@@ -115,10 +106,7 @@ pub async fn toggle_todo(
 ) -> TodoTemplate
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-
     let todo = db::toggle_todo_by_id(&mut conn, todo_id);
-
-    info!("Toggled todo: {:?}", todo);
 
     TodoTemplate {
         todo,
@@ -138,10 +126,7 @@ pub async fn edit_todo_form(
 ) -> EditTodoTemplate
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-
     let todo = db::get_todo_by_id(&mut conn, todo_id);
-
-    info!("Editing todo: {:?}", todo);
 
     EditTodoTemplate {
         todo,
@@ -154,8 +139,6 @@ pub async fn edit_todo(
 ) -> TodoTemplate
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-
-    info!("Edited todo: changing {:?}", &todo);
     let new_todo = db::edit_todo(&mut conn, todo);
 
     TodoTemplate {
