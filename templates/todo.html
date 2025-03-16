@@ -26,10 +26,13 @@
   />
 
   <h3 class="todo-title {% if todo.completed %}completed{% endif %}">
-    {{ todo.title }}
+    {{ todo.title }} <sup>{{ todo.importance }}</sup>
   </h3>
 
-  <p>{{ todo.description }}</p>
+  <p>
+    {% if todo.description == "" %}<small>-- no description provided</small>{%
+    endif %}{{ todo.description }}
+  </p>
 
   <small class="todo-date"> {{ todo.created_at }} </small>
 </aside>
