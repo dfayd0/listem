@@ -15,6 +15,8 @@ A simple and lightweight to-do list application built with [Axum](https://github
 git clone https://github.com/yourusername/listem.git
 cd listem
 cargo build
+
+echo DATABASE_URL=./database/listem.db > .env
 ```
 
 ## Usage
