@@ -35,44 +35,76 @@ content %}
   </div>
 </section>
 
-<section>
-  <hr />
-  <form
-    id="todo-form"
-    hx-post="/add_todo"
-    hx-target="#todos"
-    hx-swap="beforeend"
-    hx-on::after-request="if(event.detail.successful) this.reset()"
+<button class="icon-btn add-btn">
+  <?xml version="1.0" encoding="UTF-8"?><svg
+    width="24px"
+    height="24px"
+    stroke-width="1.5"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    color="#ffffff"
   >
-    <fieldset>
-      <label for=" todo">What would you like to get done?</label>
-      <input
-        name="title"
-        type="text"
-        size="20"
-        placeholder="it could be anything.."
-        class="input"
-      />
-      <label for="value">How important is it?</label>
-      <select id="importance" name="importance">
-        <option value="low">low</option>
-        <option value="medium">medium</option>
-        <option value="high">high</option>
-      </select>
-      <label for="description">Description</label>
-      <textarea
-        cols="20"
-        rows="4"
-        name="description"
-        placeholder="(optional)"
-        class="input"
-      ></textarea>
-    </fieldset>
-    <button class="outline" id="todo-submit" type="submit">Create</button>
-  </form>
-</section>
+    <path
+      d="M8 12H12M16 12H12M12 12V8M12 12V16"
+      stroke="#ffffff"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+    <path
+      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+      stroke="#ffffff"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+</button>
+
+<dialog>
+  <article>
+    <header>
+      <button aria-label="Close" rel="prev"></button>
+    </header>
+    <form
+      id="todo-form"
+      hx-post="/add_todo"
+      hx-target="#todos"
+      hx-swap="beforeend"
+      hx-on::after-request="if(event.detail.successful) this.reset()"
+    >
+      <fieldset>
+        <label for=" todo">What would you like to get done?</label>
+        <input
+          name="title"
+          type="text"
+          size="20"
+          placeholder="it could be anything.."
+          class="input"
+        />
+        <label for="value">How important is it?</label>
+        <select id="importance" name="importance">
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+        <label for="description">Description</label>
+        <textarea
+          cols="20"
+          rows="4"
+          name="description"
+          placeholder="(optional)"
+          class="input"
+        ></textarea>
+      </fieldset>
+      <button class="outline" id="todo-submit" type="submit">Create</button>
+    </form>
+  </article>
+</dialog>
 
 <script src="/static/js/search.js"></script>
 <script src="/static/js/display-completed.js"></script>
+<script src="/static/js/modal.js"></script>
 
 {% endblock content %}

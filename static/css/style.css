@@ -6,6 +6,9 @@ section {
 }
 
 #toolbar {
+    position: fixed;
+    top: 0;
+    margin-top: 100px;
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -371,3 +374,5 @@ small {
 .hidden {
     display: none;
 }
+
+/* */
