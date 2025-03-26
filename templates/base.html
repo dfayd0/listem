@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+  <head>
+    <title>{% block title %}{{ title }}{% endblock title %} - Listem</title>
+    <script src="/static/js/lib/htmx.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="/static/css/lib/pico.min.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+    <link rel="icon" href="https://via.placeholder.com/70x70" />
+    <meta charset="utf-8" />
+    <meta name="description" content="My description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <main class="container-fluid">
+      <header class="container-fluid">
+        <nav>
+          <ul>
+            <a href="/">
+              <li><strong>Listem</strong></li>
+            </a>
+          </ul>
+          <ul>
+            <li><a href="/todolist">Todolist</a></li>
 
-<head>
-  <title>{% block title %}{{ title }}{% endblock title %} - Listem</title>
-  <script src="/static/js/lib/htmx.min.js"></script>
-  <link rel="stylesheet" href="/static/css/lib/mvp.css" type="text/css">
-  <link rel="stylesheet" href="/static/css/style.css" type="text/css">
-  <link rel="icon" href="https://via.placeholder.com/70x70">
-  <meta charset="utf-8">
-  <meta name="description" content="My description">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-  <div id="content">
-    <header>
-      <nav>
-        <a href="/"><img alt="Logo" src="/static/images/logo.png" height="35"></a>
-        <ul>
-          <li><a href="/todolist">Todolist</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
-      </nav>
-    </header>
-    <section>
-      {% block content %}
-      <p>Placeholder content</p>
-      {% endblock content %}
-    </section>
-  </div>
-</body>
-
+            <li><a href="/about">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="container main-content">
+        {% block content %}
+        <p>Placeholder content</p>
+        {% endblock content %}
+      </div>
+      <footer class="footer">
+        <hr />
+        {% block footer %}
+        <small>Placeholder footer content</small>
+        {% endblock footer %}
+      </footer>
+    </main>
+  </body>
 </html>

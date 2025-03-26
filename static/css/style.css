@@ -1,66 +1,40 @@
+section {
+    margin: 0 auto;
+    width: 80%;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    max-height: 150px;
+}
+
+.container.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
 #todos {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
     flex-wrap: wrap;
-    gap: 10px;
-    transition: justify-content 0.3s ease-in-out;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
 }
 
-aside.todo-card {
-    display: block;
-    max-width: 350px;
-    margin: 1rem 0;
-    flex: 0 0 auto;
-    padding: 1rem;
-    border-radius: 4px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-    font-family: sans-serif;
-    position: relative;
-    cursor: pointer;
-    border: 2px solid transparent;
-}
 
-aside.todo-card h3 {
-    margin: 0 0 0.25rem 0;
-    font-size: 1.25rem;
-}
 
-aside.todo-card p {
-    margin: 0.5rem 0;
-    line-height: 1.4;
-}
 
-.todo-status {
-    font-weight: 600;
-}
-
-.completed {
-    text-decoration: line-through;
-    opacity: 0.7;
-}
-
-.icon {
-    position: absolute;
-    padding: 8px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: border 0.2s;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-.icon:hover {
-    border: 1px solid black;
-}
-
-.del-icon {
-    top: 0;
-    right: 0;
-}
-
-.todo-card:hover:not(:has(.del-icon:hover, .edit-icon:hover)) {
+.unique-card:hover:not(:has(.del-icon:hover, .edit-icon:hover)) {
     border: 2px solid black;
 }
 
@@ -69,32 +43,228 @@ aside.todo-card p {
     right: 0;
 }
 
-.completed {
-    text-decoration: line-through;
-    opacity: 0.7;
+#todo-submit {
+    margin: 4px;
+    width: 12em;
+    position: relative;
+    height: 5em;
+    border: 3px ridge #149CEA;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    transition: 1s;
+    border-radius: 0.3em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.todo-title {
+button {
+    margin: 4px;
+    width: 12em;
+    position: relative;
+    height: 5em;
+    border: 3px ridge #149CEA;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    transition: 1s;
+    border-radius: 0.3em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 3%;
+    width: 95%;
+    height: 40%;
+    background-color: #13171f;
+    transition: 0.5s;
+    transform-origin: center;
+}
+
+button::before {
+    content: "";
+    transform-origin: center;
+    position: absolute;
+    top: 80%;
+    left: 3%;
+    width: 95%;
+    height: 40%;
+    background-color: #13171f;
+    transition: 0.5s;
+}
+
+button:hover::before,
+button:hover::after {
+    transform: scale(0)
+}
+
+button:hover {
+    box-shadow: inset 0px 0px 25px #1479EA;
+}
+
+
+.unique-card {
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+    /* Maximum width for each card */
+    height: 200px;
+    min-height: auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: 0 auto;
+    cursor: pointer;
+    padding: 12px;
+    margin: 12px;
+    background: #1f242e;
+}
+
+.unique-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: rgb(238, 206, 206);
+    z-index: 2;
+    transition: color 0.3s;
+}
+
+.unique-card:hover .card-content {
+    color: #ffffff;
+}
+
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(154, 170, 187, 0.7);
+    border-radius: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.unique-card:hover .background-overlay {
+    opacity: 1;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    font-size: 16px;
+}
+
+.unique-card .card-content,
+.unique-card .card-title,
+.unique-card .card-description {
     white-space: normal;
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
 
-.todo-card .icon {
+small {
+    font-size: 12px;
+    color: #ccc;
+}
+
+/*  ----  */
+
+/* From Uiverse.io by bociKond */
+/* Hide the default checkbox */
+.checkbox-container input {
+    position: absolute;
     opacity: 0;
-    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 
-.todo-card:hover .icon {
-    opacity: 1;
+.checkbox-container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    font-size: 1.5rem;
+    user-select: none;
 }
 
-/* .importance-low {} */
-
-.importance-medium {
-    background-color: #ffdd00;
+/* Create a custom checkbox */
+.checkmark {
+    --clr: #0B6E4F;
+    position: relative;
+    top: 1;
+    left: 1;
+    height: 1.1em;
+    width: 1.1em;
+    background-color: #ccc;
+    border-radius: 50%;
+    transition: 300ms;
 }
 
-.importance-high {
-    background-color: #ff0000;
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked~.checkmark {
+    background-color: var(--clr);
+    border-radius: .5rem;
+    animation: pulse 500ms ease-in-out;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+    left: 0.45em;
+    top: 0.25em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid #E0E0E2;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 #0B6E4F90;
+        rotate: 20deg;
+    }
+
+    50% {
+        rotate: -20deg;
+    }
+
+    75% {
+        box-shadow: 0 0 0 10px #0B6E4F60;
+    }
+
+    100% {
+        box-shadow: 0 0 0 13px #0B6E4F30;
+        rotate: 0;
+    }
 }

@@ -1,39 +1,47 @@
-<aside
-  class="todo-card {% if todo.completed %} completed{% endif %}"
+<div
+  class="unique-card {% if todo.completed %}completed{% endif %}"
   data-todo-id="{{ todo.id }}"
   hx-put="/toggle_todo/{{ todo.id }}"
-  hx-target="closest .todo-card"
+  hx-target="closest .unique-card"
   hx-swap="outerHTML"
 >
-  <img
-    hx-delete="/delete_todo/{{ todo.id }}"
-    hx-target="closest .todo-card"
-    hx-swap="outerHTML"
-    src="/static/icons/x.svg"
-    class="icon del-icon"
-    alt="Close todo Icon"
-    onclick="event.stopPropagation()"
-  />
+  <div class="background-overlay"></div>
+  <div class="card-content">
+    <!-- Todo Title with Importance -->
+    <div class="card-title">
+      {{ todo.title }} {#
+      <kbd class="importance-{{ todo.importance }}">{{ todo.importance }}</kbd>
+      #}
+    </div>
+  </div>
+  <label class="checkbox-container">
+    {# #}
+    <input
+      type="checkbox"
+      {%
+      if
+      todo.completed
+      %}checked="checked"
+      {%
+      endif
+      %}
+    />
+    <div class="checkmark"></div>
+  </label>
+</div>
 
-  <img
-    hx-put="/edit_form/{{ todo.id }}"
-    hx-target="[data-todo-id='{{ todo.id }}']"
-    hx-swap="outerHTML"
-    src="/static/icons/edit-2.svg"
-    class="icon edit-icon"
-    alt="Edit todo Icon"
-    onclick="event.stopPropagation()"
-  />
+{# Modal section
+<!-- Todo Description -->
+<div class="card-description">
+  {% if todo.description == "" %}
+  <small>-- no description provided</small>
+  {% endif %}
+  <p>{{ todo.description }}</p>
+</div>
 
-  <h3 class="todo-title {% if todo.completed %}completed{% endif %}">
-    {{ todo.title }}
-    <sup class="importance-{{ todo.importance }}">{{ todo.importance }}</sup>
-  </h3>
+<!-- Todo Date -->
+<div class="card-date">
+  <small>{{ todo.created_at }}</small>
+</div>
 
-  <p>
-    {% if todo.description == "" %}<small>-- no description provided</small>{%
-    endif %}{{ todo.description }}
-  </p>
-
-  <small class="todo-date"> {{ todo.created_at }} </small>
-</aside>
+#}

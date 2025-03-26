@@ -1,38 +1,45 @@
-{% extends "base.html" %}
-
-{% block title %}Todolist{% endblock title %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Todolist{% endblock title %} {% block
+content %}
 
 <section>
-    <div id="todos">
-        {% for todo in todos %}
-        {% include "todo.html" %}
-        {% endfor %}
-    </div>
+  <div id="todos">
+    {% for todo in todos %} {% include "todo.html" %} {% endfor %}
+  </div>
 </section>
 
-<hr>
 <section>
-
-    <form hx-post="/add_todo" hx-target="#todos" hx-swap="beforeend"
-        hx-on::after-request="if(event.detail.successful) this.reset()">
-
-        <label for=" todo">What would you like to get done?</label>
-        <input name="title" type="text" size="20" placeholder="it could be anything..">
-        <label for="value">How important is it?</label>
-        <select id="importance" name="importance">
-            <option value="low">low</option>
-            <option value="medium">medium</option>
-            <option value="high">high</option>
-        </select>
-        <label for="description">Description</label>
-        <textarea cols="20" rows="4" name="description" placeholder="(optional)"></textarea>
-        <button id="todo-submit" type="submit">Create</button>
-    </form>
-
-
+  <hr />
+  <form
+    id="todo-form"
+    hx-post="/add_todo"
+    hx-target="#todos"
+    hx-swap="beforeend"
+    hx-on::after-request="if(event.detail.successful) this.reset()"
+  >
+    <fieldset>
+      <label for=" todo">What would you like to get done?</label>
+      <input
+        name="title"
+        type="text"
+        size="20"
+        placeholder="it could be anything.."
+      />
+      <label for="value">How important is it?</label>
+      <select id="importance" name="importance">
+        <option value="low">low</option>
+        <option value="medium">medium</option>
+        <option value="high">high</option>
+      </select>
+      <label for="description">Description</label>
+      <textarea
+        cols="20"
+        rows="4"
+        name="description"
+        placeholder="(optional)"
+      ></textarea>
+    </fieldset>
+    <button class="outline" id="todo-submit" type="submit">Create</button>
+  </form>
 </section>
-
 
 {% endblock content %}
