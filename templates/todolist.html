@@ -1,6 +1,15 @@
 {% extends "base.html" %} {% block title %}Todolist{% endblock title %} {% block
 content %}
 
+<div class="toolbar">
+  <input
+    id="todo-search"
+    placeholder="search.."
+    class="input search-input"
+    type="text"
+  />
+</div>
+
 <section>
   <div id="todos">
     {% for todo in todos %} {% include "todo.html" %} {% endfor %}
@@ -23,6 +32,7 @@ content %}
         type="text"
         size="20"
         placeholder="it could be anything.."
+        class="input"
       />
       <label for="value">How important is it?</label>
       <select id="importance" name="importance">
@@ -36,10 +46,13 @@ content %}
         rows="4"
         name="description"
         placeholder="(optional)"
+        class="input"
       ></textarea>
     </fieldset>
     <button class="outline" id="todo-submit" type="submit">Create</button>
   </form>
 </section>
+
+<script src="/static/js/search.js"></script>
 
 {% endblock content %}

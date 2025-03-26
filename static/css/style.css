@@ -268,3 +268,38 @@ small {
         rotate: 0;
     }
 }
+
+.input {
+    background-color: #1a1a1a;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+}
+
+.input:focus {
+    animation: rotateShadow 2s infinite linear;
+}
+
+@keyframes rotateShadow {
+    0% {
+        box-shadow: -2px -2px 8px 1px #bc96cf, 2px 2px 8px 1px #01aaff;
+    }
+
+    25% {
+        box-shadow: -2px 2px 8px 1px #bc96cf, 2px -2px 8px 1px #01aaff;
+    }
+
+    50% {
+        box-shadow: 2px 2px 8px 1px #bc96cf, -2px -2px 8px 1px #01aaff;
+    }
+
+    75% {
+        box-shadow: 2px -2px 8px 1px #bc96cf, -2px 2px 8px 1px #01aaff;
+    }
+
+    100% {
+        box-shadow: -2px -2px 8px 1px #bc96cf, 2px 2px 8px 1px #01aaff;
+    }
+}
