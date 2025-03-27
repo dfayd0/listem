@@ -29,13 +29,11 @@ content %}
   </div>
 </div>
 
-<section>
-  <div id="todos">
-    {% for todo in todos %} {% include "todo.html" %} {% endfor %}
-  </div>
-</section>
+<div id="todos">
+  {% for todo in todos %} {% include "todo.html" %} {% endfor %}
+</div>
 
-<button class="icon-btn add-btn">
+<button id="add-btn" class="icon-btn add-btn">
   <?xml version="1.0" encoding="UTF-8"?><svg
     width="24px"
     height="24px"
@@ -72,7 +70,7 @@ content %}
       hx-post="/add_todo"
       hx-target="#todos"
       hx-swap="beforeend"
-      hx-on::after-request="if(event.detail.successful) this.reset()"
+      hx-on::after-request="if(event.detail.successful){ this.reset(); console.log('success'); document.querySelector('dialog').close();}"
     >
       <fieldset>
         <label for=" todo">What would you like to get done?</label>
