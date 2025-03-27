@@ -26,6 +26,7 @@ footer {
     width: 100%;
     padding: 1rem;
     max-height: 150px;
+    z-index: -100;
 }
 
 .container.main-content {
@@ -38,6 +39,10 @@ footer {
 }
 
 #todos {
+    margin: 60px auto;
+    width: 90%;
+    max-width: 800px;
+    padding: 2rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -373,6 +378,10 @@ small {
 
 .hidden {
     display: none;
+}
+
+#add-btn {
+    margin-bottom: 80px;
 }
 
 /* */
