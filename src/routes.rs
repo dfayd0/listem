@@ -54,7 +54,9 @@ pub async fn home(State(state): State<AppState>) -> HomeTemplate
 #[template(path = "todolist.html")]
 pub struct TodoListTemplate
 {
-    todos: Vec<Todo>,
+    todos:           Vec<Todo>,
+    total_completed: i64,
+    total_remaining: i64,
 }
 
 #[axum::debug_handler]
@@ -63,8 +65,12 @@ pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
     let todos = db::get_todos(&mut conn);
 
+    let total_completed = todos.iter().filter(|t| t.completed).count() as i64;
+    let total_remaining = todos.len() as i64 - total_completed;
     TodoListTemplate {
         todos,
+        total_completed,
+        total_remaining,
     }
 }
 

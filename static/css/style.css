@@ -29,6 +29,11 @@ footer {
     z-index: -100;
 }
 
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
 .container.main-content {
     display: flex;
     flex-direction: column;

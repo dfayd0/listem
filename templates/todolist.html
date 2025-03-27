@@ -105,4 +105,8 @@ content %}
 <script src="/static/js/display-completed.js"></script>
 <script src="/static/js/modal.js"></script>
 
-{% endblock content %}
+{% endblock content %} {% block footer %}
+<small>total tasks: {{ todos.len() }} </small>
+<small>completed tasks: {{ total_completed }} </small>
+<small>remaining tasks: {{ total_remaining }} </small>
+{% endblock footer %}
