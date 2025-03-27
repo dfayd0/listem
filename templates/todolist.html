@@ -104,9 +104,10 @@ content %}
 <script src="/static/js/search.js"></script>
 <script src="/static/js/display-completed.js"></script>
 <script src="/static/js/modal.js"></script>
+<script src="/static/js/data.js"></script>
 
 {% endblock content %} {% block footer %}
-<small>total tasks: {{ todos.len() }} </small>
-<small>completed tasks: {{ total_completed }} </small>
-<small>remaining tasks: {{ total_remaining }} </small>
+<small id="total-tasks">total tasks: {{ todos.len() }} </small>
+<small id="completed-tasks">completed tasks: {{ total_completed }} </small>
+<small id="remaining-tasks">remaining tasks: {{ total_remaining }} </small>
 {% endblock footer %}
