@@ -10,6 +10,21 @@ use axum::{
     response::Redirect,
 };
 
+type ApiResult<T> = Result<T, (axum::http::StatusCode, String)>;
+
+fn db_err<E>(_: E) -> (axum::http::StatusCode, String)
+{
+    (
+        axum::http::StatusCode::INTERNAL_SERVER_ERROR,
+        "database error".into(),
+    )
+}
+
+fn db_not_found(_: diesel::result::Error) -> (axum::http::StatusCode, String)
+{
+    (axum::http::StatusCode::NOT_FOUND, "todo not found".into())
+}
+
 use crate::{
     db,
     models::{
@@ -84,39 +99,48 @@ pub struct TodoTemplate
 #[axum::debug_handler]
 pub async fn add_todo(
     State(state): State<AppState>, Form(form): Form<NewTodo>,
-) -> TodoTemplate
+) -> ApiResult<TodoTemplate>
 {
-    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-    let new_todo: Todo = db::create_todo(&mut conn, form);
-
-    TodoTemplate {
-        todo: new_todo
+    if let Err(msg) = form.validate()
+    {
+        return Err((axum::http::StatusCode::UNPROCESSABLE_ENTITY, msg));
     }
+
+    let mut conn = state.db_pool.get().map_err(db_err)?;
+    let new_todo: Todo = db::create_todo(&mut conn, form).map_err(db_err)?;
+
+    Ok(TodoTemplate {
+        todo: new_todo,
+    })
 }
 
 #[axum::debug_handler]
 pub async fn delete_todo(
     State(state): State<AppState>, Path(todo_id): Path<i32>,
-) -> impl axum::response::IntoResponse
+) -> ApiResult<axum::http::StatusCode>
 {
-    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
+    let mut conn = state.db_pool.get().map_err(db_err)?;
 
-    db::delete_todo_by_id(&mut conn, todo_id);
+    let deleted = db::delete_todo_by_id(&mut conn, todo_id).map_err(db_err)?;
+    if deleted == 0
+    {
+        return Err(db_not_found(diesel::result::Error::NotFound));
+    }
 
-    axum::http::StatusCode::OK
+    Ok(axum::http::StatusCode::OK)
 }
 
 #[axum::debug_handler]
 pub async fn toggle_todo(
     State(state): State<AppState>, Path(todo_id): Path<i32>,
-) -> TodoTemplate
+) -> ApiResult<TodoTemplate>
 {
-    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-    let todo = db::toggle_todo_by_id(&mut conn, todo_id);
+    let mut conn = state.db_pool.get().map_err(db_err)?;
+    let todo = db::toggle_todo_by_id(&mut conn, todo_id).map_err(db_not_found)?;
 
-    TodoTemplate {
+    Ok(TodoTemplate {
         todo,
-    }
+    })
 }
 
 #[derive(Template, IntoResponse)]
@@ -129,25 +153,30 @@ pub struct EditTodoTemplate
 #[axum::debug_handler]
 pub async fn edit_todo_form(
     State(state): State<AppState>, Path(todo_id): Path<i32>,
-) -> EditTodoTemplate
+) -> ApiResult<EditTodoTemplate>
 {
-    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-    let todo = db::get_todo_by_id(&mut conn, todo_id);
+    let mut conn = state.db_pool.get().map_err(db_err)?;
+    let todo = db::get_todo_by_id(&mut conn, todo_id).map_err(db_not_found)?;
 
-    EditTodoTemplate {
+    Ok(EditTodoTemplate {
         todo,
-    }
+    })
 }
 
 #[axum::debug_handler]
 pub async fn edit_todo(
     State(state): State<AppState>, Form(todo): Form<TodoForm>,
-) -> TodoTemplate
+) -> ApiResult<TodoTemplate>
 {
-    let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-    let new_todo = db::edit_todo(&mut conn, todo);
-
-    TodoTemplate {
-        todo: new_todo
+    if let Err(msg) = todo.validate()
+    {
+        return Err((axum::http::StatusCode::UNPROCESSABLE_ENTITY, msg));
     }
+
+    let mut conn = state.db_pool.get().map_err(db_err)?;
+    let new_todo = db::edit_todo(&mut conn, todo).map_err(db_not_found)?;
+
+    Ok(TodoTemplate {
+        todo: new_todo,
+    })
 }
