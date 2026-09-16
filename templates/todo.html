@@ -1,47 +1,26 @@
 <div
   class="unique-card {% if todo.completed %}completed{% endif %}"
   data-todo-id="{{ todo.id }}"
-  hx-put="/toggle_todo/{{ todo.id }}"
-  hx-target="closest .unique-card"
+  hx-get="/edit_form/{{ todo.id }}"
+  hx-target="this"
   hx-swap="outerHTML"
 >
   <div class="background-overlay"></div>
   <div class="card-content">
-    <!-- Todo Title with Importance -->
-    <div class="card-title">
-      {{ todo.title }} {#
-      <kbd class="importance-{{ todo.importance }}">{{ todo.importance }}</kbd>
-      #}
-    </div>
+    <div class="card-title">{{ todo.title }}</div>
   </div>
-  <label class="checkbox-container">
-    {# #}
+  <label
+    class="checkbox-container"
+    hx-put="/toggle_todo/{{ todo.id }}"
+    hx-trigger="change"
+    hx-target="closest .unique-card"
+    hx-swap="outerHTML"
+    hx-on:click="event.stopPropagation()"
+  >
     <input
       type="checkbox"
-      {%
-      if
-      todo.completed
-      %}checked="checked"
-      {%
-      endif
-      %}
+      {% if todo.completed %}checked="checked"{% endif %}
     />
     <div class="checkmark"></div>
   </label>
 </div>
-
-{# Modal section
-<!-- Todo Description -->
-<div class="card-description">
-  {% if todo.description == "" %}
-  <small>-- no description provided</small>
-  {% endif %}
-  <p>{{ todo.description }}</p>
-</div>
-
-<!-- Todo Date -->
-<div class="card-date">
-  <small>{{ todo.created_at }}</small>
-</div>
-
-#}

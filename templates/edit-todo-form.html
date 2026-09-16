@@ -1,4 +1,6 @@
-<form hx-post="/edit/{{ todo.id }}" hx-target="this" hx-swap="outerHTML">
+<p class="form-error hidden"></p>
+<form hx-post="/edit/{{ todo.id }}" hx-target="this" hx-swap="outerHTML"
+      hx-on::response-error="showError(event.detail.xhr.responseText, this)">
   <aside
     class="todo-card {% if todo.completed %}completed{% endif %}"
     data-todo-id="{{ todo.id }}"
