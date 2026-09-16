@@ -46,14 +46,12 @@ pub fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>>
 // inserted, call .execute instead. The compiler won’t complain at you, that
 // way. :)
 
-pub fn create_todo<'a>(
+pub fn create_todo(
     conn: &mut SqliteConnection,
     new_todo: NewTodo,
 ) -> QueryResult<Todo>
 {
     use crate::schema::todos;
-
-    let new_todo = new_todo;
 
     diesel::insert_into(todos::table)
         .values(&new_todo)

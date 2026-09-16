@@ -100,7 +100,7 @@ pub async fn todolist(
         .unwrap_or_else(|| "none".to_string());
 
     match sort.as_str() {
-        "title" => todos.sort_by(|a, b| a.title.to_lowercase().cmp(&b.title.to_lowercase())),
+        "title" => todos.sort_by_key(|t| t.title.to_lowercase()),
         "importance" => todos.sort_by_key(|t| match t.importance.as_str() {
             "high" => 0,
             "medium" => 1,
