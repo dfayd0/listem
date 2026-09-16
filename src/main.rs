@@ -60,8 +60,9 @@ async fn main()
         .route("/about", get(routes::about))
         .route("/delete_todo/{id}", delete(routes::delete_todo))
         .route("/toggle_todo/{id}", put(routes::toggle_todo))
-        .route("/edit_form/{id}", put(routes::edit_todo_form))
+        .route("/edit_form/{id}", get(routes::edit_todo_form))
         .route("/edit/{id}", post(routes::edit_todo))
+        .fallback(routes::not_found)
         .with_state(state)
         .nest_service("/static", ServeDir::new("static"));
 

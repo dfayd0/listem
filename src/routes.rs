@@ -37,7 +37,17 @@ use crate::{
 
 pub async fn index() -> Redirect
 {
-    Redirect::permanent("/home")
+    Redirect::to("/home")
+}
+
+#[derive(Template, IntoResponse)]
+#[template(path = "404.html")]
+pub struct NotFoundTemplate {}
+
+#[axum::debug_handler]
+pub async fn not_found() -> NotFoundTemplate
+{
+    NotFoundTemplate {}
 }
 
 #[derive(Template, IntoResponse)]
