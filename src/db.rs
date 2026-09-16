@@ -8,6 +8,8 @@ use diesel::{
     },
 };
 
+use diesel::QueryResult;
+
 use crate::models::{
     NewTodo,
     Todo,
@@ -44,7 +46,10 @@ pub fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>>
 // inserted, call .execute instead. The compiler won’t complain at you, that
 // way. :)
 
-pub fn create_todo<'a>(conn: &mut SqliteConnection, new_todo: NewTodo) -> Todo
+pub fn create_todo<'a>(
+    conn: &mut SqliteConnection,
+    new_todo: NewTodo,
+) -> QueryResult<Todo>
 {
     use crate::schema::todos;
 
@@ -54,43 +59,48 @@ pub fn create_todo<'a>(conn: &mut SqliteConnection, new_todo: NewTodo) -> Todo
         .values(&new_todo)
         .returning(Todo::as_returning())
         .get_result(conn)
-        .expect("Error saving new todo")
 }
 
-pub fn get_todos(conn: &mut SqliteConnection) -> Vec<Todo>
+pub fn get_todos(conn: &mut SqliteConnection) -> QueryResult<Vec<Todo>>
 {
     use crate::schema::todos::dsl::*;
 
-    todos.load::<Todo>(conn).expect("Error loading todos")
+    todos.load::<Todo>(conn)
 }
 
-pub fn delete_todo_by_id(conn: &mut SqliteConnection, todo_id: i32)
+pub fn delete_todo_by_id(
+    conn: &mut SqliteConnection,
+    todo_id: i32,
+) -> QueryResult<usize>
 {
     use crate::schema::todos::dsl::*;
 
     diesel::delete(todos.filter(id.eq(todo_id)))
         .execute(conn)
-        .expect("Error deleting todo");
 }
 
-pub fn get_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
+pub fn get_todo_by_id(
+    conn: &mut SqliteConnection,
+    todo_id: i32,
+) -> QueryResult<Todo>
 {
     use crate::schema::todos::dsl::*;
 
     todos
         .find(todo_id)
         .first::<Todo>(conn)
-        .expect("Error loading todo")
 }
 
-pub fn toggle_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
+pub fn toggle_todo_by_id(
+    conn: &mut SqliteConnection,
+    todo_id: i32,
+) -> QueryResult<Todo>
 {
     use crate::schema::todos::dsl::*;
 
     let todo = todos
         .find(todo_id)
-        .first::<Todo>(conn)
-        .expect("Error loading todo");
+        .first::<Todo>(conn)?;
 
     let new_status = !todo.completed;
 
@@ -98,10 +108,12 @@ pub fn toggle_todo_by_id(conn: &mut SqliteConnection, todo_id: i32) -> Todo
         .set(completed.eq(new_status))
         .returning(Todo::as_returning())
         .get_result(conn)
-        .expect("Error updating todo")
 }
 
-pub fn edit_todo(conn: &mut SqliteConnection, todo: TodoForm) -> Todo
+pub fn edit_todo(
+    conn: &mut SqliteConnection,
+    todo: TodoForm,
+) -> QueryResult<Todo>
 {
     use crate::schema::todos::dsl::*;
 
@@ -113,5 +125,4 @@ pub fn edit_todo(conn: &mut SqliteConnection, todo: TodoForm) -> Todo
         ))
         .returning(Todo::as_returning())
         .get_result(conn)
-        .expect("Error updating todo")
 }
