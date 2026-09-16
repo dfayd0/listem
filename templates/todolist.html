@@ -2,6 +2,14 @@
 content %}
 
 <div id="toolbar">
+  <form method="get" action="/todolist" hx-get="/todolist" hx-trigger="change from:select" hx-include="this" hx-select="#todos" hx-target="#todos" hx-swap="innerHTML">
+    <select id="sort-by" name="sort" aria-label="Sort todos">
+      <option value="none" {% if sort == "none" %}selected{% endif %}>none</option>
+      <option value="title" {% if sort == "title" %}selected{% endif %}>title</option>
+      <option value="importance" {% if sort == "importance" %}selected{% endif %}>importance</option>
+    </select>
+  </form>
+
   <input
     id="todo-search"
     placeholder="search.."

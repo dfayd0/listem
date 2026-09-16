@@ -72,13 +72,32 @@ pub struct TodoListTemplate
     todos:           Vec<Todo>,
     total_completed: i64,
     total_remaining: i64,
+    sort:            String,
 }
 
 #[axum::debug_handler]
-pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
+pub async fn todolist(
+    State(state): State<AppState>,
+    axum::extract::Query(params): axum::extract::Query<std::collections::HashMap<String, String>>,
+) -> TodoListTemplate
 {
     let mut conn = state.db_pool.get().expect("Failed to get DB connection");
-    let todos = db::get_todos(&mut conn);
+    let mut todos = db::get_todos(&mut conn).expect("Error loading todos");
+
+    let sort = params
+        .get("sort")
+        .cloned()
+        .unwrap_or_else(|| "none".to_string());
+
+    match sort.as_str() {
+        "title" => todos.sort_by(|a, b| a.title.to_lowercase().cmp(&b.title.to_lowercase())),
+        "importance" => todos.sort_by_key(|t| match t.importance.as_str() {
+            "high" => 0,
+            "medium" => 1,
+            _ => 2,
+        }),
+        _ => {}
+    }
 
     let total_completed = todos.iter().filter(|t| t.completed).count() as i64;
     let total_remaining = todos.len() as i64 - total_completed;
@@ -86,6 +105,7 @@ pub async fn todolist(State(state): State<AppState>) -> TodoListTemplate
         todos,
         total_completed,
         total_remaining,
+        sort,
     }
 }
 
