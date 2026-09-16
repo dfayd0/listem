@@ -45,9 +45,12 @@ pub async fn index() -> Redirect
 pub struct NotFoundTemplate {}
 
 #[axum::debug_handler]
-pub async fn not_found() -> NotFoundTemplate
+pub async fn not_found() -> impl axum::response::IntoResponse
 {
-    NotFoundTemplate {}
+    (
+        axum::http::StatusCode::NOT_FOUND,
+        NotFoundTemplate {},
+    )
 }
 
 #[derive(Template, IntoResponse)]
