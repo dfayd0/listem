@@ -3,13 +3,23 @@
   <head>
     <title>{% block title %}{{ title }}{% endblock title %} - Listem</title>
     <script src="/static/js/lib/htmx.min.js"></script>
+    <script>
+      document.documentElement.setAttribute(
+        "data-theme",
+        localStorage.getItem("theme") || "dark"
+      );
+    </script>
+    <script src="/static/js/theme.js" defer></script>
     <link
       rel="stylesheet"
       href="/static/css/lib/pico.min.css"
       type="text/css"
     />
     <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
-    <link rel="icon" href="https://via.placeholder.com/70x70" />
+    <link rel="icon" href="/static/images/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/static/images/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png" />
+    <link rel="manifest" href="/static/images/site.webmanifest" />
     <meta charset="utf-8" />
     <meta name="description" content="My description" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
